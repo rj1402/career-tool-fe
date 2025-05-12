@@ -1,28 +1,31 @@
 // src/components/AdminLogin.js
 
-import React, { useState } from 'react';
-import axios from 'axios';
-import './AdminLogin.css';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from "react";
+import axios from "axios";
+import "./AdminLogin.css";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const AdminLogin = () => {
   const { loginAdmin } = useAuth();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post('http://localhost:5000/api/admin/login', { username, password });
-      loginAdmin(res.data.token)
+      const res = await axios.post("http://51.20.73.229/api/admin/login", {
+        username,
+        password,
+      });
+      loginAdmin(res.data.token);
       // localStorage.setItem('adminToken', res.data.token);
-      navigate('/admin-panel');
+      navigate("/admin-panel");
     } catch (err) {
-      setError('Invalid credentials');
+      setError("Invalid credentials");
     }
   };
 

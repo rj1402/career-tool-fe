@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import resetImage from '../assests/reset.png';
-import logo from '../assests/Frame.png';
+import resetImage from "../assests/reset.png";
+import logo from "../assests/Frame.png";
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -22,7 +22,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const res = await axios.post(`http://localhost:5000/api/auth/reset-password/${token}`, {
+      await axios.post(`http://51.20.73.229/api/auth/reset-password/${token}`, {
         newPassword,
         confirmPassword,
       });
@@ -37,11 +37,7 @@ const ResetPassword = () => {
   return (
     <div className="login-container">
       <div className="login-left">
-        <img
-          src={resetImage}
-          alt="illustration"
-          className="login-image"
-        />
+        <img src={resetImage} alt="illustration" className="login-image" />
         <p className="login-text">
           <strong>Hire Smarter & Upskill Faster to Optimize Performance</strong>
         </p>
@@ -82,7 +78,7 @@ const ResetPassword = () => {
         </form>
       </div>
       <div className="login-footer">
-      © 2025 Ninzarin, All rights reserved Terms, Privacy Policy
+        © 2025 Ninzarin, All rights reserved Terms, Privacy Policy
       </div>
     </div>
   );

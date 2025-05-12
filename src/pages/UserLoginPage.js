@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './UserLoginPage.css';
-import logo from '../assests/Frame.png'; // adjust path as per your structure
-import loginImage from '../assests/Group.png';      // adjust path as per your structure
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./UserLoginPage.css";
+import logo from "../assests/Frame.png"; // adjust path as per your structure
+import loginImage from "../assests/Group.png"; // adjust path as per your structure
+import { useAuth } from "../context/AuthContext";
 
 const UserLoginPage = () => {
   const navigate = useNavigate();
   const { loginUser } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://51.20.73.229/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
@@ -28,13 +28,13 @@ const UserLoginPage = () => {
         loginUser(data.token);
         // console.log('Login successful:', data);
         // localStorage.setItem('userToken', data.token); // assuming response has token
-        navigate('/user-dashboard');
+        navigate("/user-dashboard");
         // Redirect or handle auth logic here
       } else {
-        setError(data.message || 'Login failed');
+        setError(data.message || "Login failed");
       }
     } catch (err) {
-      setError('Something went wrong. Try again.');
+      setError("Something went wrong. Try again.");
       console.error(err);
     }
   };
@@ -43,7 +43,9 @@ const UserLoginPage = () => {
     <div className="login-container">
       <div className="login-left">
         <img src={loginImage} alt="Illustration" />
-        <p className="login-left-text">The Future of Talent is #EverythingSkills</p>
+        <p className="login-left-text">
+          The Future of Talent is #EverythingSkills
+        </p>
       </div>
       <div className="login-right">
         <img src={logo} alt="Logo" className="login-logo" />
@@ -65,11 +67,16 @@ const UserLoginPage = () => {
             required
           />
           <button type="submit">Log In</button>
-          <p className="forgot-password" onClick={() => navigate('/forgot-password')}>Forgot password?</p>
+          <p
+            className="forgot-password"
+            onClick={() => navigate("/forgot-password")}
+          >
+            Forgot password?
+          </p>
         </form>
       </div>
       <div className="login-footer">
-      © 2025 Ninzarin, All rights reserved Terms, Privacy Policy
+        © 2025 Ninzarin, All rights reserved Terms, Privacy Policy
       </div>
     </div>
   );

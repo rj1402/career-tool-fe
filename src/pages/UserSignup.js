@@ -1,22 +1,22 @@
 // src/pages/UserSignupPage.js
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './UserLoginPage.css';
-import logo from '../assests/Frame.png';
-import signupImage from '../assests/Group.png';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./UserLoginPage.css";
+import logo from "../assests/Frame.png";
+import signupImage from "../assests/Group.png";
+import { useAuth } from "../context/AuthContext";
 
 const UserSignup = () => {
   const navigate = useNavigate();
   const { loginUser } = useAuth();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,31 +24,37 @@ const UserSignup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     const { firstName, lastName, email, password, confirmPassword } = formData;
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstName, lastName, email, password, confirmPassword })
+      const response = await fetch("http://51.20.73.229/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password,
+          confirmPassword,
+        }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         loginUser(data.token);
-        navigate('/user-dashboard');
+        navigate("/user-dashboard");
       } else {
-        setError(data.error || 'Signup failed');
+        setError(data.error || "Signup failed");
       }
     } catch (err) {
-      setError('Something went wrong. Try again.');
+      setError("Something went wrong. Try again.");
       console.error(err);
     }
   };
@@ -104,11 +110,11 @@ const UserSignup = () => {
             required
           />
           <button type="submit">Sign Up</button>
-          <p style={{ marginTop: '10px' }}>
-            Already have an account?{' '}
+          <p style={{ marginTop: "10px" }}>
+            Already have an account?{" "}
             <span
-              style={{ color: '#4b7bec', cursor: 'pointer' }}
-              onClick={() => navigate('/user-login')}
+              style={{ color: "#4b7bec", cursor: "pointer" }}
+              onClick={() => navigate("/user-login")}
             >
               Log In
             </span>
@@ -116,7 +122,7 @@ const UserSignup = () => {
         </form>
       </div>
       <div className="login-footer">
-      © 2025 Ninzarin, All rights reserved Terms, Privacy Policy
+        © 2025 Ninzarin, All rights reserved Terms, Privacy Policy
       </div>
     </div>
   );
