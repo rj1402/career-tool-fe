@@ -1,0 +1,170 @@
+/* General styles */
+.admin-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #a7c7e7, #fff);
+}
+
+.admin-panel-box {
+  width: 100%;
+  max-width: 1200px;
+  background-color: white;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.admin-tabs {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+}
+
+.admin-tab-btn {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  background-color: #f2f2f2;
+  color: #333;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.admin-tab-btn:hover {
+  background-color: #d1d1d1;
+}
+
+.admin-tab-btn.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.admin-content {
+  padding: 20px;
+}
+
+.admin-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.question-boxes {
+  background: #f9f9f9;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.admin-input, .admin-select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.admin-button {
+  display: inline-block;
+  padding: 12px 20px;
+  text-align: center;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-blue {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-blue:hover {
+  background-color: #0056b3;
+}
+
+.btn-green {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-green:hover {
+  background-color: #218838;
+}
+
+.btn-purple {
+  background-color: #6f42c1;
+  color: white;
+}
+
+.btn-purple:hover {
+  background-color: #5a32a3;
+}
+
+.btn-yellow {
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-yellow:hover {
+  background-color: #e0a800;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .admin-tabs {
+    flex-direction: column;
+  }
+
+  .admin-tab-btn {
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  .admin-panel-box {
+    width: 100%;
+    padding: 20px;
+    border-radius: 5px;
+  }
+
+  .admin-content {
+    padding: 15px;
+  }
+
+  .admin-input, .admin-select {
+    padding: 8px;
+  }
+
+  .admin-button {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .admin-tab-btn {
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  .admin-input, .admin-select {
+    padding: 6px;
+  }
+
+  .admin-button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .admin-panel-box {
+    padding: 10px;
+    border-radius: 5px;
+  }
+}
