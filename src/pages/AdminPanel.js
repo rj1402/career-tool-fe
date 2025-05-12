@@ -25,7 +25,7 @@ export default function AdminPanel() {
   useEffect(() => {
     if (!token) navigate("/admin-login");
     axios
-      .get("http://51.20.73.229/api/admin-category/all")
+      .get("https://career-tool.onrender.com/api/admin-category/all")
       .then((res) => setCategories(res.data))
       .catch((err) => console.error(err));
   }, [token, navigate]);
@@ -34,7 +34,7 @@ export default function AdminPanel() {
 
   // const handleAddCategory = async () => {
   //   if (!categoryName) return alert('Enter category name');
-  //   await axios.post('http://51.20.73.229/api/admin-category/category', { name: categoryName }, headers);
+  //   await axios.post('https://career-tool.onrender.com/api/admin-category/category', { name: categoryName }, headers);
   //   alert('Category added');
   //   setCategoryName('');
   // };
@@ -44,14 +44,14 @@ export default function AdminPanel() {
 
     try {
       await axios.post(
-        "http://51.20.73.229/api/admin-category/category",
+        "https://career-tool.onrender.com/api/admin-category/category",
         { name: categoryName },
         headers
       );
       alert("Category added");
       setCategoryName("");
       const res = await axios.get(
-        "http://51.20.73.229/api/admin-category/all",
+        "https://career-tool.onrender.com/api/admin-category/all",
         headers
       );
       setCategories(res.data);
@@ -65,7 +65,7 @@ export default function AdminPanel() {
     const formData = new FormData();
     formData.append("file", file);
     await axios.post(
-      `http://51.20.73.229/api/admin-category/category/${categoryId}/upload`,
+      `https://career-tool.onrender.com/api/admin-category/category/${categoryId}/upload`,
       formData,
       headers
     );
@@ -74,7 +74,7 @@ export default function AdminPanel() {
   };
 
   // const handleUpdateOptions = async () => {
-  //   await axios.put(`http://51.20.73.229/api/admin/question/${questionId}/options`, {
+  //   await axios.put(`https://career-tool.onrender.com/api/admin/question/${questionId}/options`, {
   //     options,
   //     correctAnswer
   //   }, headers);
@@ -89,7 +89,7 @@ export default function AdminPanel() {
 
     try {
       await axios.put(
-        `http://51.20.73.229/api/admin/question/${questionId}/options`,
+        `https://career-tool.onrender.com/api/admin/question/${questionId}/options`,
         { options, correctAnswer },
         headers
       );
@@ -104,7 +104,7 @@ export default function AdminPanel() {
 
   const handleUpdateSettings = async () => {
     await axios.put(
-      `http://51.20.73.229/api/admin/test-settings`,
+      `https://career-tool.onrender.com/api/admin/test-settings`,
       settings,
       headers
     );
@@ -122,7 +122,7 @@ export default function AdminPanel() {
     if (!categoryId) return alert("Select a category first");
     try {
       const res = await axios.get(
-        `http://51.20.73.229/api/admin-category/category/${categoryId}/questions`,
+        `https://career-tool.onrender.com/api/admin-category/category/${categoryId}/questions`,
         headers
       );
       setViewQuestions(res.data);
@@ -342,7 +342,7 @@ function QuestionEditor({ question, index, headers, onSave }) {
     }
     try {
       await axios.put(
-        `http://51.20.73.229/api/admin/question/${question._id}/options`,
+        `https://career-tool.onrender.com/api/admin/question/${question._id}/options`,
         { options: localOptions, correctAnswer: localCorrect },
         headers
       );

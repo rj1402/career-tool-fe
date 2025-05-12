@@ -16,11 +16,14 @@ const UserLoginPage = () => {
     e.preventDefault();
     setError("");
     try {
-      const response = await fetch("http://51.20.73.229/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://career-tool.onrender.com/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 

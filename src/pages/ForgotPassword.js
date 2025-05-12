@@ -17,7 +17,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await fetch(
-        "http://51.20.73.229/api/auth/forgot-password",
+        "https://career-tool.onrender.com/api/auth/forgot-password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

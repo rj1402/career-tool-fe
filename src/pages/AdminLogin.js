@@ -17,10 +17,13 @@ const AdminLogin = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://51.20.73.229/api/admin/login", {
-        username,
-        password,
-      });
+      const res = await axios.post(
+        "https://career-tool.onrender.com/api/admin/login",
+        {
+          username,
+          password,
+        }
+      );
       loginAdmin(res.data.token);
       // localStorage.setItem('adminToken', res.data.token);
       navigate("/admin-panel");

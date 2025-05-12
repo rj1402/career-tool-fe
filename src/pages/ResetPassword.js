@@ -22,10 +22,13 @@ const ResetPassword = () => {
     }
 
     try {
-      await axios.post(`http://51.20.73.229/api/auth/reset-password/${token}`, {
-        newPassword,
-        confirmPassword,
-      });
+      await axios.post(
+        `https://career-tool.onrender.com/api/auth/reset-password/${token}`,
+        {
+          newPassword,
+          confirmPassword,
+        }
+      );
 
       setSuccess("Password reset successful. Redirecting to login...");
       setTimeout(() => navigate("/user-login"), 2000);

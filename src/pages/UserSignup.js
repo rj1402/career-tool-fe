@@ -33,17 +33,20 @@ const UserSignup = () => {
     }
 
     try {
-      const response = await fetch("http://51.20.73.229/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-          confirmPassword,
-        }),
-      });
+      const response = await fetch(
+        "https://career-tool.onrender.com/api/auth/signup",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            email,
+            password,
+            confirmPassword,
+          }),
+        }
+      );
 
       const data = await response.json();
 

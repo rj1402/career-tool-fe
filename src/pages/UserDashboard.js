@@ -22,7 +22,9 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchTimerSetting = async () => {
       try {
-        const res = await fetch("http://51.20.73.229/api/admin/test-settings");
+        const res = await fetch(
+          "https://career-tool.onrender.com/api/admin/test-settings"
+        );
         const data = await res.json();
         if (res.ok) {
           setDuration(data.durationInMinutes);
@@ -66,13 +68,16 @@ const UserDashboard = () => {
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch("http://51.20.73.229/api/test/start", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
+      const res = await fetch(
+        "https://career-tool.onrender.com/api/test/start",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
       const data = await res.json();
       if (res.ok) {
         // console.log("Received Question:", data.question);
@@ -97,17 +102,20 @@ const UserDashboard = () => {
     }
 
     try {
-      const res = await fetch("http://51.20.73.229/api/test/answer", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-        body: JSON.stringify({
-          questionId: question._id,
-          selectedOption,
-        }),
-      });
+      const res = await fetch(
+        "https://career-tool.onrender.com/api/test/answer",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify({
+            questionId: question._id,
+            selectedOption,
+          }),
+        }
+      );
       const data = await res.json();
 
       if (res.ok) {
@@ -134,11 +142,14 @@ const UserDashboard = () => {
   const fetchResult = async () => {
     try {
       if (timerInterval) clearInterval(timerInterval); // Stop timer
-      const res = await fetch("http://51.20.73.229/api/test/result", {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
+      const res = await fetch(
+        "https://career-tool.onrender.com/api/test/result",
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
       const data = await res.json();
       if (res.ok) {
         // fallback if API didn't send `careerSuggestions`
