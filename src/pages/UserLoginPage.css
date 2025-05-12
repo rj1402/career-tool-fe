@@ -3,12 +3,13 @@
   flex-direction: row;
   height: 100vh;
   font-family: Arial, sans-serif;
+  background: linear-gradient(2.58deg, #EEE6FF -2.3%, #FFFFFF 84.7%);
 }
 
 /* LEFT SIDE */
 .login-left {
   flex: 1;
-  background-color: #f5f6fa;
+  /* background-color: #f5f6fa; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,10 +37,15 @@
   flex-direction: column;
   justify-content: center;
   padding: 0 50px;
-  background-color: white;
+  /* background-color: white; */
   position: relative;
 }
-
+/* .login-logo {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  width: 120px;
+} */
 .login-logo {
   width: 150px;
   margin-bottom: 30px;
@@ -48,6 +54,10 @@
 .login-form {
   display: flex;
   flex-direction: column;
+  align-items: center; /* centers all children horizontally */
+  max-width: 400px;     /* control the form width */
+  margin: 0 auto;       /* center horizontally */
+  width: 100%;
 }
 
 .login-form h2 {
@@ -57,14 +67,19 @@
 }
 
 .login-form input {
+  width: 100%;           /* fill the form width (400px max) */
+  max-width: 350px;  
   margin-bottom: 15px;
   padding: 12px 15px;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: 1px solid #FD9AB0;
+  border-radius: 8px;
+  box-sizing: border-box;
 }
 
 .login-form button {
+  width: 100%;
+  max-width: 350px;
   padding: 12px;
   background-color: #240246;
   color: white;
