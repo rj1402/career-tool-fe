@@ -153,11 +153,15 @@ const UserDashboard = () => {
       const data = await res.json();
       if (res.ok) {
         // fallback if API didn't send `careerSuggestions`
+        // setResult({
+        //   score: data.score || 0,
+        //   outOf: data.outOf || 0,
+        //   careerSuggestions: data.careerSuggestions || [],
+        // });
         setResult({
-          score: data.score || 0,
-          outOf: data.outOf || 0,
-          careerSuggestions: data.careerSuggestions || [],
-        });
+        outOf: data.totalQuestions || 0,
+        careerSuggestions: data.careerSuggestions || []
+      });
         setIsTestStarted(false);
         setTimeLeft(null); // stop timer
       } else {
@@ -173,31 +177,53 @@ const UserDashboard = () => {
     navigate("/user-login"); // Redirect to login page
   };
 
+  // if (result) {
+  //   return (
+  //     <div className="dashboard">
+  //       <h2>Your Test Result</h2>
+  //       <p>
+  //         Score: {result.score} / {result.outOf}
+  //       </p>
+  //       {result.careerSuggestions?.length > 0 ? (
+  //         <>
+  //           <h4>Top Career Suggestions:</h4>
+  //           <ul>
+  //             {result.careerSuggestions.map((c, index) => (
+  //               <li key={index}>{c}</li>
+  //             ))}
+  //           </ul>
+  //         </>
+  //       ) : (
+  //         <p>No career suggestions available.</p>
+  //       )}
+  //       <button className="logout-btn" onClick={handleLogout}>
+  //         Log Out
+  //       </button>{" "}
+  //       {/* Logout Button */}
+  //     </div>
+  //   );
+  // }
+
   if (result) {
-    return (
-      <div className="dashboard">
-        <h2>Your Test Result</h2>
-        <p>
-          Score: {result.score} / {result.outOf}
-        </p>
-        {result.careerSuggestions?.length > 0 ? (
-          <>
-            <h4>Top Career Suggestions:</h4>
-            <ul>
-              {result.careerSuggestions.map((c, index) => (
-                <li key={index}>{c}</li>
-              ))}
-            </ul>
-          </>
-        ) : (
-          <p>No career suggestions available.</p>
-        )}
-        <button className="logout-btn" onClick={handleLogout}>
-          Log Out
-        </button>{" "}
-        {/* Logout Button */}
-      </div>
-    );
+  return (
+    <div className="dashboard">
+      <h2>Your Test Result</h2>
+      <p>Total Questions Answered: {result.outOf}</p>
+      {result.careerSuggestions?.length > 0 ? (
+        <>
+          <h4>Top Career Suggestions:</h4>
+          <ul>
+            {result.careerSuggestions.map((c, index) => (
+              <li key={index}>{c}</li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p>No career suggestions available.</p>
+      )}
+      <button className='logout-btn' onClick={handleLogout}>Log Out</button>
+    </div>
+  );
   }
 
   return (
