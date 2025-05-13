@@ -116,7 +116,7 @@ const fetchQuestions = async () => {
     {/* <button onClick={handleLogout} className="logout-button">Logout</button> */}
     <div className="admin-panel-box">
       <div className="admin-tabs">
-        {['category', 'upload', 'settings', 'view', 'logout'].map(key => (
+        {['category', 'upload', 'settings', 'view', 'delete', 'logout'].map(key => (
           <button
             key={key}
             onClick={() => setTab(key)}
@@ -127,6 +127,7 @@ const fetchQuestions = async () => {
             {/* {key === 'options' && 'Add Options'} */}
             {key === 'settings' && 'Test Settings'}
             {key === 'view' && 'View Questions'}
+            {key === 'delete' && 'Delete Questions'}
             {key === 'logout' && 'Logout'}
           </button>
         ))}
@@ -256,6 +257,41 @@ const fetchQuestions = async () => {
             ))}
           </div>
         </>
+      )}
+
+      {tab === 'delete' && (
+      <>
+        <label className="admin-label">Select Category</label>
+        <select
+          value={categoryId}
+          onChange={e => setCategoryId(e.target.value)}
+          className="admin-select"
+        >
+          <option value="">Select</option>
+          {categories.map(cat => (
+            <option key={cat._id} value={cat._id}>{cat.name}</option>
+          ))}
+        </select>
+
+        <button
+          onClick={async () => {
+            if (!categoryId) return alert('Please select a category first');
+            if (!window.confirm('Are you sure you want to delete all questions in this category?')) return;
+
+            try {
+              await axios.delete(`http://localhost:5000/api/admin-category/category/${categoryId}/questions`, headers);
+              alert('Questions deleted successfully');
+            } catch (err) {
+              console.error(err);
+              alert('Failed to delete questions');
+            }
+          }}
+          className="admin-button btn-red"
+          style={{ marginTop: '1rem' }}
+        >
+          Delete Questions
+        </button>
+      </>
       )}
       {tab === 'logout' && (
         <div>
