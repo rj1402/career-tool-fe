@@ -258,7 +258,6 @@ const fetchQuestions = async () => {
           </div>
         </>
       )}
-
       {tab === 'delete' && (
       <>
         <label className="admin-label">Select Category</label>
@@ -291,6 +290,29 @@ const fetchQuestions = async () => {
         >
           Delete Questions
         </button>
+
+        <button
+      onClick={async () => {
+        if (!categoryId) return alert('Please select a category first');
+        if (!window.confirm('Are you sure you want to delete the entire category?')) return;
+
+        try {
+          await axios.delete(`https://career-tool.onrender.com/api/admin-category/category/${categoryId}`, headers);
+          alert('Category deleted successfully');
+          // Optionally refresh category list after deletion
+          setCategories(prev => prev.filter(cat => cat._id !== categoryId));
+          setCategoryId('');
+        } catch (err) {
+          console.error(err);
+          alert('Failed to delete category');
+        }
+      }}
+      className="admin-button btn-red"
+      style={{ marginTop: '1rem' }}
+    >
+      Delete Category
+    </button>
+
       </>
       )}
       {tab === 'logout' && (
@@ -388,9 +410,9 @@ function QuestionEditor({ question, index, headers, onSave, allCategories }) {
   const [localCorrect, setLocalCorrect] = useState(question.correctAnswer || '');
 
   const saveOptions = async () => {
-    if (!['A', 'B', 'C', 'D'].includes(localCorrect)) {
-      return alert('Correct Answer must be A, B, C, or D');
-    }
+    // if (!['A', 'B', 'C', 'D'].includes(localCorrect)) {
+    //   return alert('Correct Answer must be A, B, C, or D');
+    // }
 
     try {
       await axios.put(
@@ -444,14 +466,14 @@ function QuestionEditor({ question, index, headers, onSave, allCategories }) {
         </div>
       ))}
 
-      <label className="admin-label">Correct Answer (A/B/C/D)</label>
+      {/* <label className="admin-label">Correct Answer (A/B/C/D)</label>
       <input
         type="text"
         value={localCorrect}
         onChange={e => setLocalCorrect(e.target.value.toUpperCase())}
         className="admin-input"
         maxLength={1}
-      />
+      /> */}
 
       <button onClick={saveOptions} className="admin-button btn-purple">
         Save Options
