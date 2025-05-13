@@ -279,7 +279,7 @@ const fetchQuestions = async () => {
             if (!window.confirm('Are you sure you want to delete all questions in this category?')) return;
 
             try {
-              await axios.delete(`http://localhost:5000/api/admin-category/category/${categoryId}/questions`, headers);
+              await axios.delete(`https://career-tool.onrender.com/api/admin-category/category/${categoryId}/questions`, headers);
               alert('Questions deleted successfully');
             } catch (err) {
               console.error(err);
