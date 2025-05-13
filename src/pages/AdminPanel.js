@@ -1,4 +1,4 @@
-// src/pages/AdminPanel.js
+// // src/pages/AdminPanel.js
 import './AdminPanel.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -251,6 +251,7 @@ const fetchQuestions = async () => {
                 index={index}
                 headers={headers}
                 onSave={fetchQuestions}
+                allCategories={categories}
               />
             ))}
           </div>
@@ -270,14 +271,91 @@ const fetchQuestions = async () => {
   );
 }
 
-function QuestionEditor({ question, index, headers, onSave }) {
-  const [localOptions, setLocalOptions] = useState(question.options || { A: '', B: '', C: '', D: '' });
+// function QuestionEditor({ question, index, headers, onSave }) {
+//   const [localOptions, setLocalOptions] = useState(question.options || { A: '', B: '', C: '', D: '' });
+//   const [localCorrect, setLocalCorrect] = useState(question.correctAnswer || '');
+
+//   const saveOptions = async () => {
+//     if (!['A', 'B', 'C', 'D'].includes(localCorrect)) {
+//       return alert('Correct Answer must be A, B, C, or D');
+//     }
+//     try {
+//       await axios.put(
+//         `https://career-tool.onrender.com/api/admin/question/${question._id}/options`,
+//         { options: localOptions, correctAnswer: localCorrect },
+//         headers
+//       );
+//       alert('Options updated successfully');
+//       onSave(); // Reload questions
+//     } catch (err) {
+//       console.error(err);
+//       alert('Failed to update options');
+//     }
+//   };
+
+//   return (
+//     <div className="question-boxes">
+//       <p><strong>{index + 1}. {question.questionText}</strong></p>
+
+//       {question.options ? (
+//         <ul>
+//           {Object.entries(question.options).map(([key, val]) => (
+//             <li key={key}><strong>{key}:</strong> {val}</li>
+//           ))}
+//         </ul>
+//       ) : (
+//         <p style={{ color: 'gray' }}><em>No options provided</em></p>
+//       )}
+//       <p><strong>Correct Answer:</strong> {question.correctAnswer || 'Not Set'}</p>
+
+//       <div className="update-options-box">
+//         <h4>Update Options</h4>
+
+//         {['A', 'B', 'C', 'D'].map(opt => (
+//           <div key={opt} className="option-input-group">
+//             <label className="admin-label">Option {opt}</label>
+//             <input
+//               type="text"
+//               value={localOptions[opt]}
+//               onChange={e => setLocalOptions({ ...localOptions, [opt]: e.target.value })}
+//               className="admin-input"
+//             />
+//           </div>
+//         ))}
+
+//         <label className="admin-label">Correct Answer (A/B/C/D)</label>
+//         <input
+//           type="text"
+//           value={localCorrect}
+//           onChange={e => setLocalCorrect(e.target.value.toUpperCase())}
+//           className="admin-input"
+//           maxLength={1}
+//         />
+
+//         <button onClick={saveOptions} className="admin-button btn-purple">
+//           Save Options
+//         </button>
+//       </div>
+//     </div>
+//   );
+// }
+
+
+function QuestionEditor({ question, index, headers, onSave, allCategories }) {
+  const [localOptions, setLocalOptions] = useState({
+    A: { text: question.options?.A?.text || '', category: question.options?.A?.category || '' },
+    B: { text: question.options?.B?.text || '', category: question.options?.B?.category || '' },
+    C: { text: question.options?.C?.text || '', category: question.options?.C?.category || '' },
+    D: { text: question.options?.D?.text || '', category: question.options?.D?.category || '' },
+  });
+
   const [localCorrect, setLocalCorrect] = useState(question.correctAnswer || '');
 
   const saveOptions = async () => {
     if (!['A', 'B', 'C', 'D'].includes(localCorrect)) {
       return alert('Correct Answer must be A, B, C, or D');
     }
+
     try {
       await axios.put(
         `https://career-tool.onrender.com/api/admin/question/${question._id}/options`,
@@ -285,7 +363,7 @@ function QuestionEditor({ question, index, headers, onSave }) {
         headers
       );
       alert('Options updated successfully');
-      onSave(); // Reload questions
+      onSave(); // Refresh questions
     } catch (err) {
       console.error(err);
       alert('Failed to update options');
@@ -296,45 +374,53 @@ function QuestionEditor({ question, index, headers, onSave }) {
     <div className="question-boxes">
       <p><strong>{index + 1}. {question.questionText}</strong></p>
 
-      {question.options ? (
-        <ul>
-          {Object.entries(question.options).map(([key, val]) => (
-            <li key={key}><strong>{key}:</strong> {val}</li>
-          ))}
-        </ul>
-      ) : (
-        <p style={{ color: 'gray' }}><em>No options provided</em></p>
-      )}
-      <p><strong>Correct Answer:</strong> {question.correctAnswer || 'Not Set'}</p>
+      {['A', 'B', 'C', 'D'].map((optKey) => (
+        <div key={optKey} className="option-input-group">
+          <label className="admin-label">Option {optKey} Text</label>
+          <input
+            type="text"
+            value={localOptions[optKey].text}
+            onChange={e =>
+              setLocalOptions({
+                ...localOptions,
+                [optKey]: { ...localOptions[optKey], text: e.target.value },
+              })
+            }
+            className="admin-input"
+          />
 
-      <div className="update-options-box">
-        <h4>Update Options</h4>
+          <label className="admin-label">Option {optKey} Category</label>
+          <select
+            value={localOptions[optKey].category}
+            onChange={e =>
+              setLocalOptions({
+                ...localOptions,
+                [optKey]: { ...localOptions[optKey], category: e.target.value },
+              })
+            }
+            className="admin-select"
+          >
+            <option value="">Select Category</option>
+            {allCategories.map(cat => (
+              <option key={cat._id} value={cat.name}>{cat.name}</option>
+            ))}
+          </select>
+        </div>
+      ))}
 
-        {['A', 'B', 'C', 'D'].map(opt => (
-          <div key={opt} className="option-input-group">
-            <label className="admin-label">Option {opt}</label>
-            <input
-              type="text"
-              value={localOptions[opt]}
-              onChange={e => setLocalOptions({ ...localOptions, [opt]: e.target.value })}
-              className="admin-input"
-            />
-          </div>
-        ))}
+      <label className="admin-label">Correct Answer (A/B/C/D)</label>
+      <input
+        type="text"
+        value={localCorrect}
+        onChange={e => setLocalCorrect(e.target.value.toUpperCase())}
+        className="admin-input"
+        maxLength={1}
+      />
 
-        <label className="admin-label">Correct Answer (A/B/C/D)</label>
-        <input
-          type="text"
-          value={localCorrect}
-          onChange={e => setLocalCorrect(e.target.value.toUpperCase())}
-          className="admin-input"
-          maxLength={1}
-        />
-
-        <button onClick={saveOptions} className="admin-button btn-purple">
-          Save Options
-        </button>
-      </div>
+      <button onClick={saveOptions} className="admin-button btn-purple">
+        Save Options
+      </button>
     </div>
   );
 }
+
