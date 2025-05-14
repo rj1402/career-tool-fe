@@ -267,7 +267,7 @@ const UserDashboard = () => {
                       checked={selectedOption === key}
                       onChange={(e) => setSelectedOption(e.target.value)}
                     />
-                    {key}. {value}
+                    {key}. {value.text}
                   </label>
                 </div>
               ))

@@ -108,7 +108,7 @@ body {
 }
 
 .login-form button:hover {
-  background-color: red;
+  background-color: #240246;
 }
 
 .login-form .forgot-password {

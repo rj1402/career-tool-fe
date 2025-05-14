@@ -23,6 +23,25 @@ export default function AdminPanel() {
       .catch(err => console.error(err));
   }, [token, navigate]);
 
+    useEffect(() => {
+  if (tab === 'settings') {
+    fetchSettings();
+  }
+}, [tab]);
+
+const fetchSettings = async () => {
+  try {
+    const res = await axios.get('https://career-tool.onrender.com/api/admin/test-settings', headers);
+    setSettings({
+      maxQuestions: res.data.maxQuestions || 20,
+      durationInMinutes: res.data.durationInMinutes || 20
+    });
+  } catch (err) {
+    console.error('Failed to fetch settings', err);
+    alert('Failed to fetch test settings');
+  }
+};
+
   const headers = { headers: { Authorization: `Bearer ${token}` } };
 
   const handleAddCategory = async () => {
