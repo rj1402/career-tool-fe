@@ -14,35 +14,25 @@ export default function AdminPanel() {
   const [categoryName, setCategoryName] = useState('');
   const [file, setFile] = useState(null);
   const [categoryId, setCategoryId] = useState('');
-  // const [questionId, setQuestionId] = useState('');
-  // const [options] = useState({ A: '', B: '', C: '', D: '' });
-  // const [correctAnswer] = useState('');
   const [settings, setSettings] = useState({ maxQuestions: 20, durationInMinutes: 20 });
 
   useEffect(() => {
     if (!token) navigate('/admin-login');
-    axios.get('https://career-tool.onrender.com/api/admin-category/all')
+    axios.get('http://localhost:5000/api/admin-category/all')
       .then(res => setCategories(res.data))
       .catch(err => console.error(err));
   }, [token, navigate]);
 
   const headers = { headers: { Authorization: `Bearer ${token}` } };
 
-  // const handleAddCategory = async () => {
-  //   if (!categoryName) return alert('Enter category name');
-  //   await axios.post('https://career-tool.onrender.com/api/admin-category/category', { name: categoryName }, headers);
-  //   alert('Category added');
-  //   setCategoryName('');
-  // };
-
   const handleAddCategory = async () => {
   if (!categoryName) return alert('Enter category name');
 
   try {
-    await axios.post('https://career-tool.onrender.com/api/admin-category/category', { name: categoryName }, headers);
+    await axios.post('http://localhost:5000/api/admin-category/category', { name: categoryName }, headers);
     alert('Category added');
     setCategoryName('');
-    const res = await axios.get('https://career-tool.onrender.com/api/admin-category/all', headers);
+    const res = await axios.get('http://localhost:5000/api/admin-category/all', headers);
     setCategories(res.data);
     } catch (err) {
       console.error(err);
@@ -53,43 +43,13 @@ export default function AdminPanel() {
   const handleUploadFile = async () => {
     const formData = new FormData();
     formData.append('file', file);
-    await axios.post(`https://career-tool.onrender.com/api/admin-category/category/${categoryId}/upload`, formData, headers);
+    await axios.post(`http://localhost:5000/api/admin-category/category/${categoryId}/upload`, formData, headers);
     alert('Questions uploaded');
     setFile(null);
   };
 
-  // const handleUpdateOptions = async () => {
-  //   await axios.put(`https://career-tool.onrender.com/api/admin/question/${questionId}/options`, {
-  //     options,
-  //     correctAnswer
-  //   }, headers);
-  //   alert('Options saved');
-  // };
-
-  // const handleUpdateOptions = async (questionId) => {
-  // // Ensure the correct answer is valid (A, B, C, or D)
-  // if (!['A', 'B', 'C', 'D'].includes(correctAnswer)) {
-  //   return alert('Please select a valid correct answer (A, B, C, or D)');
-  // }
-
-  // try {
-  //   await axios.put(
-  //     `https://career-tool.onrender.com/api/admin/question/${questionId}/options`,
-  //     { options, correctAnswer },
-  //     headers
-  //   );
-  //   alert('Options updated successfully');
-  //   // Optionally, reload questions after updating
-  //   fetchQuestions();
-  //   } catch (err) {
-  //     console.error(err);
-  //     alert('Failed to update options');
-  //   }
-  // };
-
-
   const handleUpdateSettings = async () => {
-    await axios.put(`https://career-tool.onrender.com/api/admin/test-settings`, settings, headers);
+    await axios.put(`http://localhost:5000/api/admin/test-settings`, settings, headers);
     alert('Test settings updated');
   };
   
@@ -103,7 +63,7 @@ export default function AdminPanel() {
 const fetchQuestions = async () => {
   if (!categoryId) return alert('Select a category first');
   try {
-    const res = await axios.get(`https://career-tool.onrender.com/api/admin-category/category/${categoryId}/questions`, headers);
+    const res = await axios.get(`http://localhost:5000/api/admin-category/category/${categoryId}/questions`, headers);
     setViewQuestions(res.data);
   } catch (err) {
     console.error(err);
@@ -113,7 +73,6 @@ const fetchQuestions = async () => {
 
   return (
   <div className="admin-container">
-    {/* <button onClick={handleLogout} className="logout-button">Logout</button> */}
     <div className="admin-panel-box">
       <div className="admin-tabs">
         {['category', 'upload', 'settings', 'view', 'delete', 'logout'].map(key => (
@@ -143,9 +102,17 @@ const fetchQuestions = async () => {
               onChange={e => setCategoryName(e.target.value)}
               className="admin-input"
             />
-            <button onClick={handleAddCategory} className="admin-button btn-blue">
+            <button onClick={handleAddCategory} className="admin-button btn-purple-dark">
               Add Category
             </button>
+            <div style={{ marginTop: '1rem' }}>
+              <h4>Existing Categories:</h4>
+              <ul className="admin-category-list">
+                {categories.map(cat => (
+                  <li key={cat._id}>{cat.name}</li>
+                ))}
+              </ul>
+            </div>
           </>
         )}
 
@@ -164,7 +131,7 @@ const fetchQuestions = async () => {
             </select>
 
             <input type="file" onChange={e => setFile(e.target.files[0])} className="admin-input" />
-            <button onClick={handleUploadFile} className="admin-button btn-green">
+            <button onClick={handleUploadFile} className="admin-button btn-purple-dark">
               Upload
             </button>
           </>
@@ -220,7 +187,7 @@ const fetchQuestions = async () => {
               className="admin-input"
             />
 
-            <button onClick={handleUpdateSettings} className="admin-button btn-yellow">
+            <button onClick={handleUpdateSettings} className="admin-button btn-purple-dark">
               Update Settings
             </button>
           </>
@@ -240,7 +207,7 @@ const fetchQuestions = async () => {
             ))}
           </select>
 
-          <button onClick={fetchQuestions} className="admin-button btn-blue">
+          <button onClick={fetchQuestions} className="admin-button btn-purple-dark">
             Load Questions
           </button>
 
@@ -278,14 +245,14 @@ const fetchQuestions = async () => {
             if (!window.confirm('Are you sure you want to delete all questions in this category?')) return;
 
             try {
-              await axios.delete(`https://career-tool.onrender.com/api/admin-category/category/${categoryId}/questions`, headers);
+              await axios.delete(`http://localhost:5000/api/admin-category/category/${categoryId}/questions`, headers);
               alert('Questions deleted successfully');
             } catch (err) {
               console.error(err);
               alert('Failed to delete questions');
             }
           }}
-          className="admin-button btn-red"
+          className="admin-button btn-purple-dark"
           style={{ marginTop: '1rem' }}
         >
           Delete Questions
@@ -297,7 +264,7 @@ const fetchQuestions = async () => {
         if (!window.confirm('Are you sure you want to delete the entire category?')) return;
 
         try {
-          await axios.delete(`https://career-tool.onrender.com/api/admin-category/category/${categoryId}`, headers);
+          await axios.delete(`http://localhost:5000/api/admin-category/category/${categoryId}`, headers);
           alert('Category deleted successfully');
           // Optionally refresh category list after deletion
           setCategories(prev => prev.filter(cat => cat._id !== categoryId));
@@ -307,7 +274,7 @@ const fetchQuestions = async () => {
           alert('Failed to delete category');
         }
       }}
-      className="admin-button btn-red"
+      className="admin-button btn-purple-dark"
       style={{ marginTop: '1rem' }}
     >
       Delete Category
@@ -318,7 +285,7 @@ const fetchQuestions = async () => {
       {tab === 'logout' && (
         <div>
           <h3>Are you sure you want to logout?</h3>
-          <button onClick={handleLogout} className="admin-button btn-red">
+          <button onClick={handleLogout} className="admin-button btn-red btn-purple-dark">
             Logout
           </button>
         </div>
@@ -339,7 +306,7 @@ const fetchQuestions = async () => {
 //     }
 //     try {
 //       await axios.put(
-//         `https://career-tool.onrender.com/api/admin/question/${question._id}/options`,
+//         `http://localhost:5000/api/admin/question/${question._id}/options`,
 //         { options: localOptions, correctAnswer: localCorrect },
 //         headers
 //       );
@@ -416,7 +383,7 @@ function QuestionEditor({ question, index, headers, onSave, allCategories }) {
 
     try {
       await axios.put(
-        `https://career-tool.onrender.com/api/admin/question/${question._id}/options`,
+        `http://localhost:5000/api/admin/question/${question._id}/options`,
         { options: localOptions, correctAnswer: localCorrect },
         headers
       );
@@ -475,10 +442,27 @@ function QuestionEditor({ question, index, headers, onSave, allCategories }) {
         maxLength={1}
       /> */}
 
-      <button onClick={saveOptions} className="admin-button btn-purple">
+      <button onClick={saveOptions} className="admin-button btn-purple-dark">
         Save Options
+      </button>
+      <button
+        onClick={async () => {
+          if (window.confirm('Are you sure you want to delete this question?')) {
+            try {
+              await axios.delete(`http://localhost:5000/api/admin-category/question/${question._id}`, headers);
+              alert('Question deleted');
+              onSave(); // Refresh the list
+            } catch (err) {
+              console.error(err);
+              alert('Failed to delete question');
+            }
+          }
+        }}
+        className="admin-button btn-purple-dark"
+        style={{ marginLeft: '10px' }}
+      >
+        Delete Question
       </button>
     </div>
   );
 }
-
